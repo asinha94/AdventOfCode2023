@@ -49,7 +49,7 @@ impl fmt::Display for RoundGuesses {
 }
 
 pub fn part1and2() {
-    let contents = fs::read_to_string("input/puzzle2.txt").unwrap();
+    let contents = fs::read_to_string("input/day2.txt").unwrap();
 
     let mut games = Vec::new();
 

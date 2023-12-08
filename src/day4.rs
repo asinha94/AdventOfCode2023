@@ -7,7 +7,7 @@ fn create_set(line: &str) -> HashSet<u64>{
 }
 
 pub fn part1() {
-    let contents = fs::read_to_string("input/puzzle4.txt").unwrap();
+    let contents = fs::read_to_string("input/day4.txt").unwrap();
     let mut total_points: u64 = 0;
     for line in contents.lines() {
         let l: Vec<_> = line.split(':').collect();
@@ -25,7 +25,7 @@ pub fn part1() {
 
 
 pub fn part2() {
-    let contents = fs::read_to_string("input/puzzle4.txt").unwrap();
+    let contents = fs::read_to_string("input/day4.txt").unwrap();
     
     let mut games: Vec<i32> = (1..=190).map(|_| 1).collect();
     for (i, line) in contents.lines().enumerate() {

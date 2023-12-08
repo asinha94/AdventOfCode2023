@@ -54,7 +54,7 @@ fn symbol_found_around (x: usize, y: usize, rows: usize, cols: usize, grid: &Vec
 
 
 pub fn part1() {
-    let contents = fs::read_to_string("input/puzzle3.txt").unwrap();
+    let contents = fs::read_to_string("input/day3.txt").unwrap();
 
     // Create grid from list
     let mut grid = Vec::new();
@@ -163,7 +163,7 @@ fn stars_found_around (x: usize, y: usize, grid: &Vec<Vec<char>>) -> Vec<(usize,
 
 
 pub fn part2() {
-    let contents = fs::read_to_string("input/puzzle3.txt").unwrap();
+    let contents = fs::read_to_string("input/day3.txt").unwrap();
 
     // Create grid from list
     let mut grid = Vec::new();
