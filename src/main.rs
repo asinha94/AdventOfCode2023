@@ -1,17 +1,11 @@
 #[allow(dead_code)]
-mod puzzle2;
+mod day2;
 #[allow(dead_code)]
-mod puzzle3;
+mod day3;
 #[allow(dead_code)]
-mod puzzle4;
-
-mod puzzle5;
+mod day4;
+mod day5;
 
 fn main() {
-    //puzzle2::part1and2();
-    //puzzle3::part1();
-    //puzzle3::part2();
-    // puzzle4::part1();
-    // puzzle4::part2();
-    puzzle5::part1();
+    day5::part2();
 }
