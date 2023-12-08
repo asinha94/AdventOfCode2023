@@ -219,15 +219,19 @@ pub fn part2() {
 
     for map in maps {
         // Transform all the inputs and place into this vector
+        
         let mut future_inputs = vec![];
         for input in inputs {
             let mut transformed_inputs = transform2(&map, &input);
-
             future_inputs.append(&mut transformed_inputs);            
         }
 
         inputs = future_inputs;
-        
+
+        // For a more functional approach
+        /* inputs = inputs.iter()
+                       .flat_map(|x| transform2(&map, x))
+                       .collect(); */
     }
 
     inputs.sort_by_key(|k| k.start);
