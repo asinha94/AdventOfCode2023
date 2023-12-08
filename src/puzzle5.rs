@@ -91,13 +91,6 @@ pub fn part1() {
 
     let mut locations = vec![];
     for seed in seed_values {
-        /* 
-        // Same thing as the functional form below
-        let mut s = seed; 
-        for map in &maps {
-            s = transform(&map, s);
-        } */
-
         let s = maps.iter().fold(seed, |acc, map| transform(map, acc));
         locations.push(s);
     }
@@ -105,15 +98,4 @@ pub fn part1() {
     locations.sort();
     println!("{}",locations[0]);
     
-    /* 
-    let sv = 2880930400;
-    for map in &maps[0] {
-        let between = map.source < sv && sv < map.source+map.range;
-        let gt = map.cmp(sv).is_gt();
-        let lt = map.cmp(sv).is_lt();
-        let ge = map.cmp(sv).is_ge();
-        let le = map.cmp(sv).is_le();
-        println!("{sv} between {}..{}? {between}. lt {lt}, gt {gt}, ge {ge}, le {le}", map.source, map.source+map.range);
-    }*/
-
 }
