@@ -5,6 +5,7 @@ use std::cmp::Ordering;
 enum HandType {
     FiveOfAKind,
     FourOfAKind,
+    FullHouse,
     ThreeOfAKind,
     TwoPair,
     OnePair,
@@ -14,8 +15,9 @@ enum HandType {
 impl HandType {
     fn get_value(&self) -> i32 {
         match self {
-            HandType::FiveOfAKind => 6,
-            HandType::FourOfAKind => 5,
+            HandType::FiveOfAKind => 7,
+            HandType::FourOfAKind => 6,
+            HandType::FullHouse => 5,
             HandType::ThreeOfAKind => 4,
             HandType::TwoPair => 3,
             HandType::OnePair => 2,
@@ -40,7 +42,7 @@ impl HandType {
                     2 => {
                         // 4, 1
                         // 3, 2
-                        if c == &4 { HandType::FourOfAKind } else { HandType::ThreeOfAKind }
+                        if c == &4 { HandType::FourOfAKind } else { HandType::FullHouse }
                     }
                     3 => {
                         // 2, 2, 1
