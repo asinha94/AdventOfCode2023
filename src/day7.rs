@@ -54,6 +54,47 @@ impl HandType {
             }
         }
     }
+
+    fn get_hand_type2(hand: &str) -> HandType {
+        let mut cards = HashMap::new();
+        for c in hand.chars() {
+            cards.entry(c).and_modify(|counter| *counter += 1)
+                .or_insert(1);
+        }
+
+        let js = cards.remove(&'J');
+        if js.is_some() {
+            let jcount = js.unwrap();
+            let c = cards.iter()
+                .max_by_key(|k| k.1)
+                .unwrap_or((&'A', &jcount));
+
+            cards.entry(*c.0).and_modify(|counter| *counter += jcount)
+                .or_insert(jcount);
+        }
+
+        match cards.len() {
+            5 => HandType::HighCard,
+            4 => HandType::OnePair,
+            1 => HandType::FiveOfAKind,
+            n => {
+                let c = cards.values().max().unwrap();
+                match n {
+                    2 => {
+                        // 4, 1
+                        // 3, 2
+                        if c == &4 { HandType::FourOfAKind } else { HandType::FullHouse }
+                    }
+                    3 => {
+                        // 2, 2, 1
+                        // 3, 1, 1
+                        if c == &3 { HandType::ThreeOfAKind } else { HandType::TwoPair }
+                    }
+                    _ => HandType::HighCard
+                }
+            }
+        }
+    }
 }
 
 
@@ -68,6 +109,14 @@ impl Hand {
         Hand {
             order: String::from(hand),
             hand_type: HandType::get_hand_type(hand),
+            bid: bid.parse::<usize>().unwrap()
+        }
+    }
+
+    fn create2(hand: &str, bid: &str) -> Hand {
+        Hand {
+            order: String::from(hand),
+            hand_type: HandType::get_hand_type2(hand),
             bid: bid.parse::<usize>().unwrap()
         }
         
@@ -117,6 +166,51 @@ impl Hand {
 
         Ordering::Equal
     }
+
+    fn card_value2(card: char) -> i32 {
+        match  card {
+            'J' => 1,
+            '2' => 2,
+            '3' => 3,
+            '4' => 4,
+            '5' => 5,
+            '6' => 6,
+            '7' => 7,
+            '8' => 8,
+            '9' => 9,
+            'T' => 10,
+            'Q' => 11,
+            'K' => 12,
+            'A' => 13,
+            _ => 0
+        }
+    }
+
+    fn cmp2(&self, other: &Hand) -> Ordering {
+        let self_value = self.hand_type.get_value();
+        let other_value = other.hand_type.get_value();
+
+        if self_value < other_value {
+            return Ordering::Less;
+        }
+
+        if self_value > other_value {
+            return Ordering::Greater;
+        }
+
+        for c in self.order.chars().zip(other.order.chars()) {
+            let s = Hand::card_value2(c.0);
+            let o = Hand::card_value2(c.1);
+
+            match s.cmp(&o) {
+                Ordering::Equal => continue,
+                Ordering::Less => return Ordering::Less,
+                Ordering::Greater => return Ordering::Greater
+            };
+        }
+
+        Ordering::Equal
+    }
 }
 
 pub fn part1() {
@@ -130,6 +224,24 @@ pub fn part1() {
 
 
     hands.sort_by(|u, v| u.cmp(v));
+    let val = hands.iter()
+        .enumerate()
+        .fold(0, |acc, (i, h)| acc + (h.bid*(i+1)));
+
+    println!("{val}");
+}
+
+pub fn part2() {
+    let content = fs::read_to_string("input/day7.txt").unwrap();
+    let mut hands: Vec<_> = content.lines()
+        .map(|l| {
+            let lv: Vec<_> = l.split(' ').collect();
+            return Hand::create2(lv[0], lv[1]);
+        })
+        .collect();
+
+
+    hands.sort_by(|u, v| u.cmp2(v));
     let val = hands.iter()
         .enumerate()
         .fold(0, |acc, (i, h)| acc + (h.bid*(i+1)));
