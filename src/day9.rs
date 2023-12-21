@@ -20,7 +20,7 @@ fn get_next_num_in_seq(seqs: &Vec<i64>) -> i64 {
     }
 
     let last = get_next_num_in_seq(&diffs);
-    diffs[diffs.len()-1] + last
+    diffs[0] - last
 }
 
 pub fn part1() {
@@ -33,7 +33,7 @@ pub fn part1() {
         .collect();
 
     let sum: i64 = seqs.iter()
-        .map(|f: &Vec<_>| f[f.len()-1] + get_next_num_in_seq(f))
+        .map(|f: &Vec<_>| f[0] - get_next_num_in_seq(f))
         .sum();
 
     println!("{sum}");
